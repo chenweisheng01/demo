@@ -7,11 +7,14 @@
             <span :style="{ color: index==selectedIndex? itemStyleObj.activeColor: 'pink',
                             fontSize: navStyleObj.fontSize,
                             fontWeight: index==selectedIndex?'bold': 'normal' }"
+                            class="subTab"
+                            @click.stop="updateSelectedIndex(index)"
             >{{tab.name}}</span>
         </mt-tab-item>
     </mt-navbar>
 </template>
 <script>
+import { mapState } from "vuex"
 export default {
     name: 'NavBar',
     data() {
@@ -45,6 +48,19 @@ export default {
             default: false
         }
     },
+    methods: {
+        updateSelectedIndex(index){
+            this.$store.dispatch('updateSelectedIndex',index);
+            this.selectedIndex = this.$store.state.selectedIndex;
+            let currentFoodType = this.foodType[index];
+            if(this.$route.path === '/home' && !this.$store.state[currentFoodType].length){
+                this.$store.dispatch('getFoods',{foodIndex: index})
+            }
+        }
+    },
+    computed:{
+      ...mapState(['foodType'])  
+    },
     mounted(){
         console.log('fontSize='+this.navStyleObj.fontSize)
     }
@@ -75,8 +91,8 @@ export default {
     span{
         font-size: 15px;
         color: #fff;
-        padding-left: 24.0235px;
-        padding-right: 24.0235px;
+        // padding-left: 24.0235px;
+        // padding-right: 24.0235px;
         i{
             font-size: 20px;
             margin-right: 12px;

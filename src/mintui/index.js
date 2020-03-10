@@ -12,6 +12,7 @@ import {
 	Toast,
 	Picker,
 	// MessageBox,
+	Indicator 
 } from 'mint-ui';
 
 let obj = {
@@ -25,7 +26,7 @@ let obj = {
 	TabContainer,
 	TabContainerItem,
 	Toast,
-	Picker
+	Picker,
 };
 
 Object.keys(obj).forEach( key => Vue.component(obj[key].name,obj[key]));
